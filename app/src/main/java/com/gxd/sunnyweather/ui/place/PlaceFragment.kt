@@ -1,6 +1,7 @@
 package com.gxd.sunnyweather.ui.place
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,10 +13,12 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.gxd.sunnyweather.databinding.FragmentPlaceBinding
+import com.gxd.sunnyweather.ui.MainActivity
+import com.gxd.sunnyweather.ui.weather.WeatherActivity
 import com.gxd.sunnyweather.viewmodel.place.PlaceViewModel
 
 class PlaceFragment : Fragment() {
-    private val viewModel by lazy { ViewModelProvider(this).get(PlaceViewModel::class.java) }
+    val viewModel by lazy { ViewModelProvider(this).get(PlaceViewModel::class.java) }
 
     private lateinit var adapter: PlaceAdapter
     private lateinit var binding: FragmentPlaceBinding
@@ -32,6 +35,17 @@ class PlaceFragment : Fragment() {
     @SuppressLint("NotifyDataSetChanged")
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        if (activity is MainActivity && viewModel.isPlaceSaved()) {
+            val place = viewModel.getSavedPlace()
+            val intent = Intent(context, WeatherActivity::class.java).apply {
+                putExtra("location_lng", place.location.lng)
+                putExtra("location_lat", place.location.lat)
+                putExtra("place_name", place.name)
+            }
+            startActivity(intent)
+            activity?.finish()
+            return
+        }
 
         val layoutInflater = LinearLayoutManager(activity)
         binding.recyclerView.layoutManager = layoutInflater

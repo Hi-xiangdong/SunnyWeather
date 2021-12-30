@@ -1,6 +1,5 @@
 package com.gxd.sunnyweather.logic.model
 
-import android.location.Location
 import com.google.gson.annotations.SerializedName
 
 /**
