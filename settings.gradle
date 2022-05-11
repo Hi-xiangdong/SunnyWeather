@@ -1,2 +1,3 @@
 rootProject.name = "SunnyWeather"
 include ':app'
+include ':getloctest'

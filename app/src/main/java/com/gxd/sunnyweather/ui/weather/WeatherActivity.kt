@@ -57,8 +57,10 @@ class WeatherActivity : AppCompatActivity() {
             }
             binding.swipeRefresh.isRefreshing = false
         })
+
         binding.swipeRefresh.setColorSchemeResources(R.color.colorPrimary)
         refreshWeather()
+
         binding.swipeRefresh.setOnRefreshListener {
             refreshWeather()
         }
@@ -86,6 +88,8 @@ class WeatherActivity : AppCompatActivity() {
     }
 
     private fun showWeatherInfo(weather: Weather) {
+        Toast.makeText(this, "温度:" + weather.realtime.temperature + " 湿度:" +
+                weather.realtime.humidity, Toast.LENGTH_SHORT).show()
         binding.now.placeName.text = viewModel.placeName
         val realtime = weather.realtime
         val daily = weather.daily

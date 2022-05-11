@@ -1,34 +1,29 @@
-package com.gxd.sunnyweather.logic.network
+package com.android.getloctest.network
 
+import com.android.getloctest.model.RealtimeResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.await
 import java.lang.RuntimeException
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 
 /**
- * @Author guoxiangdong
- * @Date 2021/8/9 15:07
+ * @Description TODO
+ *
+ * @Author GXD
+ * @Date 2022/3/4
  */
 object SunnyWeatherNetwork {
-    private val weatherService = ServiceCreator.create(WeatherService::class.java)
+    private val weatherService = ServiceCreator.create(SearchService::class.java)
 
-    suspend fun getDailyWeather(lng: String, lat: String) =
-        weatherService.getDailyWeather(lng, lat).await()
-
-    suspend fun getRealtimeWeather(lng: String, lat: String) =
+    suspend fun getRealtimeWeather(lng: String, lat: String): RealtimeResponse =
         weatherService.getRealtimeWeather(lng, lat).await()
-
-    private val placeService = ServiceCreator.create(PlaceService::class.java)
-
-    suspend fun searchPlaces(query: String) = placeService.searchPlaces(query).await()
 
     private suspend fun <T> Call<T>.await(): T {
         return suspendCoroutine {   continuation ->
-            enqueue(object: Callback<T>{
+            enqueue(object: Callback<T> {
                 override fun onResponse(call: Call<T>, response: Response<T>) {
                     val body = response.body()
                     if (body != null) continuation.resume(body)
