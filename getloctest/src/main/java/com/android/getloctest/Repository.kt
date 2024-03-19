@@ -17,7 +17,6 @@ import com.android.getloctest.network.SunnyWeatherNetwork
 object Repository {
     fun refreshWeather(lng: String, lat: String) = liveData(Dispatchers.IO) {
         val result = try {
-
                 val realtimeResponse = SunnyWeatherNetwork.getRealtimeWeather(lng, lat)
 
                 if (realtimeResponse.status == "ok") {
@@ -31,7 +30,6 @@ object Repository {
                         )
                     )
                 }
-
         } catch (e: Exception) {
             Result.failure(e)
         }

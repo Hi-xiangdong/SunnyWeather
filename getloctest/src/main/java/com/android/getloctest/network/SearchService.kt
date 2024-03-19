@@ -1,18 +1,21 @@
-package com.android.getloctest.network;
+package com.android.getloctest.network
 
-import com.android.getloctest.model.RealtimeResponse;
-
-import retrofit2.Call;
-import retrofit2.http.GET;
-import retrofit2.http.Part;
-import retrofit2.http.Path;
+import com.android.getloctest.Constant
+import com.android.getloctest.model.RealtimeResponse
+import retrofit2.Call
+import retrofit2.http.GET
+import retrofit2.http.Part
+import retrofit2.http.Path
 
 /**
  * @Description TODO
  * @Author GXD
  * @Date 2022/3/4
  */
-interface SearchService {
+internal interface SearchService {
     @GET("v2.5/${Constant.TOKEN}/{lng},{lat}/realtime.json")
-    Call<RealtimeResponse> getRealtimeWeather(@Part("lng") String lng, @Path("lat") String lat);
+    fun getRealtimeWeather(
+        @Path("lng") lng: String,
+        @Path("lat") lat: String
+    ): Call<RealtimeResponse>
 }

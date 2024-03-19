@@ -47,7 +47,7 @@ class WeatherActivity : AppCompatActivity() {
             viewModel.placeName = intent.getStringExtra("place_name") ?: ""
         }
 
-        viewModel.weatherLiveData.observe(this, Observer { result ->
+        viewModel.weatherLiveData.observe(this) { result ->
             val weather = result.getOrNull()
             if (weather != null) {
                 showWeatherInfo(weather)
@@ -56,7 +56,7 @@ class WeatherActivity : AppCompatActivity() {
                 result.exceptionOrNull()?.printStackTrace()
             }
             binding.swipeRefresh.isRefreshing = false
-        })
+        }
 
         binding.swipeRefresh.setColorSchemeResources(R.color.colorPrimary)
         refreshWeather()
@@ -116,9 +116,12 @@ class WeatherActivity : AppCompatActivity() {
             val temperatureInfo = view.findViewById(R.id.temperatureInfo) as TextView
             val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
             dateInfo.text = simpleDateFormat.format(skycon.date)
+
             val sky = getSky(skycon.value)
             skyIcon.setImageResource(sky.icon)
+
             skyInfo.text = sky.info
+
             val tempText = "${temperature.min.toInt()} ~ ${temperature.max.toInt()} ℃"
             temperatureInfo.text = tempText
             binding.forecast.forecastLayout.addView(view)

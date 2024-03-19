@@ -18,7 +18,9 @@ import com.gxd.sunnyweather.ui.weather.WeatherActivity
 import com.gxd.sunnyweather.viewmodel.place.PlaceViewModel
 
 class PlaceFragment : Fragment() {
-    val viewModel by lazy { ViewModelProvider(this).get(PlaceViewModel::class.java) }
+    val viewModel by lazy {
+        ViewModelProvider(this).get(PlaceViewModel::class.java)
+    }
 
     private lateinit var adapter: PlaceAdapter
     private lateinit var binding: FragmentPlaceBinding
@@ -65,7 +67,7 @@ class PlaceFragment : Fragment() {
             }
         }
 
-        viewModel.placeLiveData.observe(viewLifecycleOwner, { result ->
+        viewModel.placeLiveData.observe(viewLifecycleOwner) { result ->
             val places = result.getOrNull()
             if (places != null) {
                 binding.recyclerView.visibility = View.VISIBLE
@@ -77,6 +79,6 @@ class PlaceFragment : Fragment() {
                 Toast.makeText(activity, "未能查询到任何地点", Toast.LENGTH_SHORT).show()
                 result.exceptionOrNull()?.printStackTrace()
             }
-        })
+        }
     }
 }

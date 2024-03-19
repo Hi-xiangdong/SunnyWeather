@@ -26,8 +26,9 @@ object SunnyWeatherNetwork {
 
     suspend fun searchPlaces(query: String) = placeService.searchPlaces(query).await()
 
+    //用于简化回调的写法
     private suspend fun <T> Call<T>.await(): T {
-        return suspendCoroutine {   continuation ->
+        return suspendCoroutine { continuation ->
             enqueue(object: Callback<T>{
                 override fun onResponse(call: Call<T>, response: Response<T>) {
                     val body = response.body()
